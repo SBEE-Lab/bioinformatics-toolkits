@@ -58,7 +58,7 @@ python3Packages.buildPythonPackage (finalAttrs: {
     owner = "biotite-dev";
     repo = "biotite";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-FS5eACe7sQLxzPiyVobZ7dyzKovMutFJhs5qZlmi+7A=";
+    hash = "sha256-gbGrIkty6uF4h398sVY8XPaY26DVFHZwrcuI1rgSqFE=";
   };
 
   # Since 1.x biotite ships a Rust extension (pyo3) alongside the Cython one.
