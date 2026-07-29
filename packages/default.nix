@@ -8,7 +8,6 @@ rec {
   folddisco = pkgs.callPackage ./folddisco { };
   foldmason = pkgs.callPackage ./foldmason { };
   foldseek = pkgs.callPackage ./foldseek { };
-  gemme = pkgs.callPackage ./gemme { };
   nupack = pkgs.callPackage ./nupack { };
   plmc = pkgs.callPackage ./plmc { };
   psipred = pkgs.callPackage ./psipred { };
