@@ -7,7 +7,7 @@
   hh-suite,
   plmc,
   # Optional fold (3D structure) stage tools. These are non-free / not bundled,
-  # so they are supplied by the user exactly like gemme's naccess, e.g.
+  # so users supply them explicitly, e.g.
   #   evcouplings.override { cns = <pkg>; psipred = <pkg>; maxcluster = <pkg>; }
   # The core pipeline (align / couplings / compare / mutate) needs none of them.
   cns ? null,

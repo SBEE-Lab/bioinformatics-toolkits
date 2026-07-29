@@ -170,15 +170,6 @@ do not appear in the overlay on other systems.
 
 </details>
 <details>
-<summary><strong>gemme</strong> - Predict mutational effects from evolutionary conservation and global epistasis</summary>
-
-- **License**: MIT
-- **Homepage**: http://www.lcqb.upmc.fr/GEMME/
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#gemme -- --help`
-- **Nix**: [packages/gemme/default.nix](packages/gemme/default.nix)
-
-</details>
-<details>
 <summary><strong>plmc</strong> - Infer Potts models (couplings) from a multiple sequence alignment by pseudo-likelihood maximization</summary>
 
 - **License**: MIT
