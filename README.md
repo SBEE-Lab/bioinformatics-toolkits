@@ -23,7 +23,7 @@ repo's pinned `nixpkgs`, so results are reproducible:
 
   outputs = { nixpkgs, bio, ... }: {
     # e.g. inside a devShell or package
-    # bio.packages.x86_64-linux.evcouplings
+    # bio.packages.x86_64-linux.foldseek
   };
 }
 ```
@@ -43,20 +43,18 @@ collides with nixpkgs, so nothing is overridden):
       pkgs = import nixpkgs {
         system = "x86_64-linux";
         overlays = [ bio.overlays.default ];
-        config.allowUnfree = true; # required by cns, maxcluster, psipred, …
+        config.allowUnfree = true; # required by nupack, psipred, …
       };
     in
     {
-      # pkgs.evcouplings, pkgs.plmc, pkgs.fair-esm, …
+      # pkgs.foldseek, pkgs.plmc, pkgs.usalign, …
     };
 }
 ```
 
 Overlay packages build against _your_ `nixpkgs`, not this repo's pin. That is
 usually fine, but if your `nixpkgs` is far from ours a dependency may not line up
-— pull from `packages.<system>` instead when you need the pinned build. Some
-packages are `x86_64-linux`-only (`cns`, `interproscan`, `maxcluster`) and simply
-do not appear in the overlay on other systems.
+— pull from `packages.<system>` instead when you need the pinned build.
 
 ## Available Packages
 
@@ -64,15 +62,6 @@ do not appear in the overlay on other systems.
 
 ### Structure Analysis
 
-<details>
-<summary><strong>cns</strong> - Crystallography & NMR System — macromolecular structure determination (EVcouplings fold engine)</summary>
-
-- **License**: unfree
-- **Homepage**: http://cns-online.org/
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#cns -- --help`
-- **Nix**: [packages/cns/default.nix](packages/cns/default.nix)
-
-</details>
 <details>
 <summary><strong>folddisco</strong> - Finding discontinuous motifs in protein structures</summary>
 
@@ -101,15 +90,6 @@ do not appear in the overlay on other systems.
 
 </details>
 <details>
-<summary><strong>maxcluster</strong> - Protein structure comparison and clustering</summary>
-
-- **License**: unfree
-- **Homepage**: https://www.sbg.bio.ic.ac.uk/~maxcluster/
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#maxcluster -- --help`
-- **Nix**: [packages/maxcluster/default.nix](packages/maxcluster/default.nix)
-
-</details>
-<details>
 <summary><strong>usalign</strong> - Universal structure alignment of monomeric and complex proteins and nucleic acids</summary>
 
 - **License**: US-align license (permissive, BSD-like)
@@ -121,15 +101,6 @@ do not appear in the overlay on other systems.
 
 ### Sequence Analysis & Design
 
-<details>
-<summary><strong>interproscan</strong> - Genome-scale protein function classification (InterPro member-database scanner)</summary>
-
-- **License**: Apache-2.0
-- **Homepage**: https://www.ebi.ac.uk/interpro/about/interproscan/
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#interproscan -- --help`
-- **Nix**: [packages/interproscan/default.nix](packages/interproscan/default.nix)
-
-</details>
 <details>
 <summary><strong>nupack</strong> - Analysis and design of nucleic acid structures, devices, and systems</summary>
 
@@ -151,33 +122,6 @@ do not appear in the overlay on other systems.
 
 ### Evolution & Variation
 
-<details>
-<summary><strong>consurf</strong> - Standalone ConSurf: evolutionary conservation of amino-acid/nucleotide positions, web-server equivalent</summary>
-
-- **License**: ConSurf academic use (no upstream license file)
-- **Homepage**: https://consurf.tau.ac.il
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#consurf -- --help`
-- **Nix**: [packages/consurf/default.nix](packages/consurf/default.nix)
-
-</details>
-<details>
-<summary><strong>evcouplings</strong> - Predict residue couplings, 3D structure and mutation effects from sequence coevolution</summary>
-
-- **License**: MIT
-- **Homepage**: https://github.com/debbiemarkslab/EVcouplings
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#evcouplings -- --help`
-- **Nix**: [packages/evcouplings/default.nix](packages/evcouplings/default.nix)
-
-</details>
-<details>
-<summary><strong>gemme</strong> - Predict mutational effects from evolutionary conservation and global epistasis</summary>
-
-- **License**: MIT
-- **Homepage**: http://www.lcqb.upmc.fr/GEMME/
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#gemme -- --help`
-- **Nix**: [packages/gemme/default.nix](packages/gemme/default.nix)
-
-</details>
 <details>
 <summary><strong>plmc</strong> - Infer Potts models (couplings) from a multiple sequence alignment by pseudo-likelihood maximization</summary>
 
@@ -215,15 +159,6 @@ do not appear in the overlay on other systems.
 - **Homepage**: https://www.biotite-python.org
 - **Usage**: `nix build github:mulatta/bioinformatics-toolkits#biotite`
 - **Nix**: [packages/biotite/default.nix](packages/biotite/default.nix)
-
-</details>
-<details>
-<summary><strong>fair-esm</strong> - Evolutionary Scale Modeling (ESM): pretrained protein language models</summary>
-
-- **License**: MIT
-- **Homepage**: https://github.com/facebookresearch/esm
-- **Usage**: `nix build github:mulatta/bioinformatics-toolkits#fair-esm`
-- **Nix**: [packages/fair-esm/default.nix](packages/fair-esm/default.nix)
 
 </details>
 
