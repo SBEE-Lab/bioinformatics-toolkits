@@ -15,6 +15,3 @@ rec {
   updater = pkgs.callPackage ./updater { };
   usalign = pkgs.callPackage ./usalign { };
 }
-// pkgs.lib.optionalAttrs (pkgs.stdenv.hostPlatform.system == "x86_64-linux") {
-  maxcluster = pkgs.callPackage ./maxcluster { };
-}
