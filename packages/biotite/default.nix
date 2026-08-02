@@ -61,18 +61,21 @@ python3Packages.buildPythonPackage (finalAttrs: {
     hash = "sha256-gbGrIkty6uF4h398sVY8XPaY26DVFHZwrcuI1rgSqFE=";
   };
 
-  # Since 1.x biotite ships a Rust extension (pyo3) alongside the Cython one.
-  # Upstream gitignores Cargo.lock (Rust library convention) and resolves crates
-  # fresh on every build, so carry our own pinned lock for reproducibility. It is
-  # regenerated on version bumps by the package's update.py (plain nix-update
-  # cannot, as the lock must match the new Cargo.toml).
-  cargoDeps = rustPlatform.importCargoLock { lockFile = ./Cargo.lock; };
+  # Upstream does not ship Cargo.lock.
+  cargoDeps = rustPlatform.fetchCargoVendor {
+    name = "${finalAttrs.pname}-${finalAttrs.version}-vendor";
+    inherit (finalAttrs) src;
+    hash = "sha256-nQts7uZjd9hxBYuwdxmB/hZaIXtgaEZIadTHI7FDNos=";
+    nativeBuildInputs = [ cargo ];
+    postPatch = ''
+      cargo generate-lockfile
+    '';
+  };
 
   postPatch = ''
-    cp ${./Cargo.lock} Cargo.lock
-    # puccinialin only downloads a Rust toolchain when cargo is missing; we
-    # provide one, so drop both its unconditional import and its build-system
-    # requirement (otherwise the no-isolation build flags it as missing).
+    cargo generate-lockfile --offline
+
+    # Use the Rust toolchain supplied by Nix.
     substituteInPlace setup.py \
       --replace-fail "from puccinialin import setup_rust" ""
     substituteInPlace pyproject.toml \
