@@ -30,9 +30,8 @@ repo's pinned `nixpkgs`, so results are reproducible:
 
 ### Via the overlay
 
-Use `overlays.default` to expose every package on your own `nixpkgs` instance,
-alongside the rest of nixpkgs. The overlay is purely additive (no package name
-collides with nixpkgs, so nothing is overridden):
+Use `overlays.shared-nixpkgs` to build the package set against your own
+`nixpkgs` instance:
 
 ```nix
 {
@@ -42,12 +41,12 @@ collides with nixpkgs, so nothing is overridden):
     let
       pkgs = import nixpkgs {
         system = "x86_64-linux";
-        overlays = [ bio.overlays.default ];
+        overlays = [ bio.overlays.shared-nixpkgs ];
         config.allowUnfree = true; # required by nupack, psipred, …
       };
     in
     {
-      # pkgs.foldseek, pkgs.plmc, pkgs.usalign, …
+      # pkgs.bioinformatics-toolkits.foldseek, …
     };
 }
 ```
@@ -68,7 +67,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/folddisco
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#folddisco -- --help`
-- **Nix**: [packages/folddisco/default.nix](packages/folddisco/default.nix)
+- **Nix**: [packages/folddisco/package.nix](packages/folddisco/package.nix)
 
 </details>
 <details>
@@ -77,7 +76,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/foldmason
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#foldmason -- --help`
-- **Nix**: [packages/foldmason/default.nix](packages/foldmason/default.nix)
+- **Nix**: [packages/foldmason/package.nix](packages/foldmason/package.nix)
 
 </details>
 <details>
@@ -86,7 +85,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/foldseek
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#foldseek -- --help`
-- **Nix**: [packages/foldseek/default.nix](packages/foldseek/default.nix)
+- **Nix**: [packages/foldseek/package.nix](packages/foldseek/package.nix)
 
 </details>
 <details>
@@ -95,7 +94,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: US-align license (permissive, BSD-like)
 - **Homepage**: https://github.com/pylelab/USalign
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#usalign -- --help`
-- **Nix**: [packages/usalign/default.nix](packages/usalign/default.nix)
+- **Nix**: [packages/usalign/package.nix](packages/usalign/package.nix)
 
 </details>
 
@@ -107,7 +106,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: unfree
 - **Homepage**: https://www.nupack.org
 - **Usage**: `nix build github:mulatta/bioinformatics-toolkits#nupack`
-- **Nix**: [packages/nupack/default.nix](packages/nupack/default.nix)
+- **Nix**: [packages/nupack/package.nix](packages/nupack/package.nix)
 
 </details>
 <details>
@@ -116,7 +115,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: unfree
 - **Homepage**: https://github.com/psipred/psipred
 - **Usage**: `nix build github:mulatta/bioinformatics-toolkits#psipred`
-- **Nix**: [packages/psipred/default.nix](packages/psipred/default.nix)
+- **Nix**: [packages/psipred/package.nix](packages/psipred/package.nix)
 
 </details>
 
@@ -128,7 +127,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: MIT
 - **Homepage**: https://github.com/debbiemarkslab/plmc
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#plmc -- --help`
-- **Nix**: [packages/plmc/default.nix](packages/plmc/default.nix)
+- **Nix**: [packages/plmc/package.nix](packages/plmc/package.nix)
 
 </details>
 <details>
@@ -137,7 +136,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: GPL-2.0-or-later
 - **Homepage**: https://www.tau.ac.il/~itaymay/cp/rate4site.html
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#rate4site -- --help`
-- **Nix**: [packages/rate4site/default.nix](packages/rate4site/default.nix)
+- **Nix**: [packages/rate4site/package.nix](packages/rate4site/package.nix)
 
 </details>
 <details>
@@ -146,7 +145,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: MIT
 - **Homepage**: https://github.com/Kuhlman-Lab/ThermoMPNN
 - **Usage**: `nix run github:mulatta/bioinformatics-toolkits#thermompnn -- --help`
-- **Nix**: [packages/thermompnn/default.nix](packages/thermompnn/default.nix)
+- **Nix**: [packages/thermompnn/package.nix](packages/thermompnn/package.nix)
 
 </details>
 
@@ -158,7 +157,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **License**: BSD-3-Clause
 - **Homepage**: https://www.biotite-python.org
 - **Usage**: `nix build github:mulatta/bioinformatics-toolkits#biotite`
-- **Nix**: [packages/biotite/default.nix](packages/biotite/default.nix)
+- **Nix**: [packages/biotite/package.nix](packages/biotite/package.nix)
 
 </details>
 
