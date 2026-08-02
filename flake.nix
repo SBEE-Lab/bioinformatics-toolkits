@@ -10,11 +10,7 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      treefmt-nix,
-    }:
+    inputs@{ self, nixpkgs, ... }:
     let
       inherit (nixpkgs) lib;
 
@@ -23,68 +19,75 @@
         "aarch64-linux"
         "aarch64-darwin"
       ];
+      eachSystem = lib.genAttrs systems;
 
-      eachSystem =
-        f:
-        lib.genAttrs systems (
-          system:
-          f {
-            inherit system;
-            pkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          }
-        );
+      callWith = args: fn: fn (builtins.intersectAttrs (builtins.functionArgs fn) args);
 
-      treefmtEval = eachSystem (
-        { pkgs, ... }:
-        treefmt-nix.lib.evalModule pkgs {
-          projectRootFile = "flake.nix";
-          programs = {
-            deadnix.enable = true;
-            keep-sorted.enable = true;
-            nixfmt.enable = true;
-            # Markdown only; the sole JSON file (flake.lock) is Nix-managed.
-            prettier = {
-              enable = true;
-              includes = [
-                "*.md"
-                "*.markdown"
-              ];
-            };
-            ruff-format.enable = true;
-            statix.enable = true;
-          };
+      flake = self // {
+        inherit inputs;
+      };
+
+      packageNames = builtins.attrNames (
+        lib.filterAttrs (
+          name: type: type == "directory" && builtins.pathExists (./packages + "/${name}/package.nix")
+        ) (builtins.readDir ./packages)
+      );
+
+      pkgsFor = eachSystem (
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
         }
       );
-      packages = eachSystem ({ pkgs, ... }: import ./packages { inherit pkgs; });
 
-      devShells = eachSystem (
-        { pkgs, ... }:
-        {
-          default = import ./shell.nix { inherit pkgs; };
-        }
-      );
+      mkPackagesFor =
+        pkgs:
+        let
+          system = pkgs.stdenv.hostPlatform.system;
+          scope = lib.makeScope pkgs.newScope (
+            scopeSelf:
+            {
+              inherit flake inputs system;
+              allPackages = packages;
+            }
+            // lib.genAttrs packageNames (name: scopeSelf.callPackage (./packages + "/${name}/package.nix") { })
+          );
+          packages = lib.genAttrs packageNames (name: scope.${name});
+        in
+        packages;
+
+      allPackages = eachSystem (system: mkPackagesFor pkgsFor.${system});
+
+      available =
+        system: pkg:
+        lib.meta.availableOn pkgsFor.${system}.stdenv.hostPlatform pkg && !(pkg.meta.broken or false);
+
+      packages = eachSystem (system: lib.filterAttrs (_name: available system) allPackages.${system});
+
+      devShells = eachSystem (system: {
+        default = callWith {
+          pkgs = pkgsFor.${system};
+          perSystem.self = allPackages.${system};
+          inherit inputs system;
+        } (import ./devshell.nix);
+      });
     in
     {
       inherit packages devShells;
 
-      herculesCI = import ./ci/effects.nix { inherit nixpkgs; };
+      overlays.shared-nixpkgs = import ./overlays/shared-nixpkgs.nix { inherit mkPackagesFor; };
 
-      overlays.default = import ./overlays.nix;
+      checks = eachSystem (
+        system:
+        lib.mapAttrs' (name: pkg: lib.nameValuePair "pkgs-${name}" pkg) (
+          lib.filterAttrs (_name: pkg: !(pkg.requireFile or false)) packages.${system}
+        )
+        // {
+          devshell-default = devShells.${system}.default;
+        }
+      );
 
-      checks = import ./ci/checks.nix {
-        inherit
-          self
-          lib
-          eachSystem
-          packages
-          devShells
-          treefmtEval
-          ;
-      };
-
-      formatter = eachSystem ({ system, ... }: treefmtEval.${system}.config.build.wrapper);
+      formatter = eachSystem (system: allPackages.${system}.formatter);
     };
 }

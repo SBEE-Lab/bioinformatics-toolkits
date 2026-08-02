@@ -69,7 +69,7 @@ def generate_package_doc(package: str, metadata: Metadata) -> str:
         lines.append(f"- **Usage**: `nix build {FLAKE_REF}#{package}`")
 
     lines.append(
-        f"- **Nix**: [packages/{package}/default.nix](packages/{package}/default.nix)"
+        f"- **Nix**: [packages/{package}/package.nix](packages/{package}/package.nix)"
     )
 
     readme_path = Path(f"packages/{package}/README.md")
