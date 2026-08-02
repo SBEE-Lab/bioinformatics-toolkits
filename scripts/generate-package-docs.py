@@ -88,6 +88,7 @@ CATEGORY_ORDER = [
     "Structure Analysis",
     "Sequence Analysis & Design",
     "Evolution & Variation",
+    "Data Access & Integration",
     "Libraries",
     "Uncategorized",
 ]
