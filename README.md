@@ -118,6 +118,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Nix**: [packages/psipred/package.nix](packages/psipred/package.nix)
 
 </details>
+<details>
+<summary><strong>thermompnn</strong> - Predict ddG stability changes of protein point mutants with a ProteinMPNN-based GNN</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Kuhlman-Lab/ThermoMPNN
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#thermompnn -- --help`
+- **Nix**: [packages/thermompnn/package.nix](packages/thermompnn/package.nix)
+
+</details>
 
 ### Evolution & Variation
 
@@ -137,15 +146,6 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Homepage**: https://www.tau.ac.il/~itaymay/cp/rate4site.html
 - **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#rate4site -- --help`
 - **Nix**: [packages/rate4site/package.nix](packages/rate4site/package.nix)
-
-</details>
-<details>
-<summary><strong>thermompnn</strong> - Predict ddG stability changes of protein point mutants with a ProteinMPNN-based GNN</summary>
-
-- **License**: MIT
-- **Homepage**: https://github.com/Kuhlman-Lab/ThermoMPNN
-- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#thermompnn -- --help`
-- **Nix**: [packages/thermompnn/package.nix](packages/thermompnn/package.nix)
 
 </details>
 
