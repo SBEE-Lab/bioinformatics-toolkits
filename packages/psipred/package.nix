@@ -11,7 +11,7 @@
 stdenv.mkDerivation (_finalAttrs: {
   pname = "psipred";
   # Repo has no release tags; track master HEAD by commit date (README: V4).
-  version = "4.0";
+  version = "4.0-unstable-2025-07-03";
 
   src = fetchFromGitHub {
     owner = "psipred";
