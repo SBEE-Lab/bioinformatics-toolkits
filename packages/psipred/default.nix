@@ -5,16 +5,9 @@
   makeWrapper,
   tcsh,
   coreutils,
-  # runpsipred (the PSI-BLAST path) needs a legacy NCBI blastpgp/makemat, which
-  # nixpkgs' blast+ does not provide, plus a formatted sequence DB. Left null: the
-  # self-contained runpsipred_single path needs none of this. A user with legacy
-  # BLAST can supply it via `psipred.override { blast = <pkg>; }`.
+  # Only runpsipred needs the legacy BLAST tools absent from nixpkgs.
   blast ? null,
 }:
-# PSIPRED V4 — protein secondary structure prediction (Jones lab, UCL). Used by
-# EVcouplings' fold stage to generate secondary-structure restraints. Builds four
-# small C programs; the runpsipred* tcsh driver scripts are wrapped so they locate
-# the binaries/data in the store and find tcsh + hostid at runtime.
 stdenv.mkDerivation (_finalAttrs: {
   pname = "psipred";
   # Repo has no release tags; track master HEAD by commit date (README: V4).
@@ -31,13 +24,9 @@ stdenv.mkDerivation (_finalAttrs: {
 
   buildPhase = ''
     runHook preBuild
-    # The repo commits prebuilt (FHS-linked) binaries next to the sources; make
-    # would keep them and we'd ship binaries with a /lib64 interpreter that fail
-    # in the sandbox. Remove them so everything recompiles against the Nix
-    # toolchain (the Makefile's own `clean` calls /bin/rm, absent in the sandbox).
+    # Replace upstream's FHS-linked binaries with Nix-built ones.
     rm -f src/psipred src/psipass2 src/chkparse src/seq2mtx
-    # The sources are pre-ANSI K&R C (implicit int, old malloc/calloc decls) that
-    # GCC 14+ rejects by default; -std=gnu89 keeps these as warnings.
+    # GCC 14 requires the legacy sources to use the gnu89 dialect.
     make -C src all CC=$CC CFLAGS="-O -std=gnu89"
     runHook postBuild
   '';
@@ -49,9 +38,7 @@ stdenv.mkDerivation (_finalAttrs: {
     install -Dm755 src/psipred src/psipass2 src/chkparse src/seq2mtx -t $out/bin
     cp -r data/. $out/share/psipred/data/
 
-    # The driver scripts hardcode relative ./bin and ./data and a /bin/tcsh
-    # shebang. Repoint them at the store so they work from any directory, then
-    # wrap each so tcsh and hostid (used for temp-file naming) are on PATH.
+    # Replace FHS and relative paths in the driver scripts.
     for s in runpsipred runpsipred_single; do
       cp $s $out/libexec/psipred/$s
       substituteInPlace $out/libexec/psipred/$s \
@@ -64,8 +51,7 @@ stdenv.mkDerivation (_finalAttrs: {
     runHook postInstall
   '';
 
-  # Real-data smoke test: the DB-free single-sequence path on the bundled example
-  # FASTA must produce a .ss2 secondary-structure prediction.
+  # Test the database-free path on the bundled example.
   doInstallCheck = true;
   installCheckPhase = ''
     runHook preInstallCheck
@@ -81,8 +67,7 @@ stdenv.mkDerivation (_finalAttrs: {
   meta = {
     description = "PSIPRED V4 protein secondary structure prediction";
     homepage = "https://github.com/psipred/psipred";
-    # Free for academic and commercial research; may not be resold or bundled
-    # into a commercial product/service (custom UCL licence).
+    # Custom UCL license with redistribution restrictions.
     license = lib.licenses.unfree;
     platforms = lib.platforms.unix;
   };

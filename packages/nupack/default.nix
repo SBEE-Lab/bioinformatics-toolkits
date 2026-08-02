@@ -10,8 +10,7 @@
 let
   version = "4.0.2.0";
 
-  # The distributed zip bundles one prebuilt wheel per (python, platform).
-  # Select the wheel matching the current interpreter and host platform.
+  # Select the matching wheel from the multi-platform archive.
   pyTag = "cp${lib.replaceStrings [ "." ] [ "" ] python3Packages.python.pythonVersion}";
 
   platformTag =
@@ -38,8 +37,7 @@ let
     '';
   };
 
-  # Extract just our wheel; keep the .whl name so wheelUnpackPhase's stripHash
-  # yields a valid filename for pip.
+  # Preserve the wheel suffix expected by wheelUnpackPhase.
   wheel = runCommand wheelName { nativeBuildInputs = [ unzip ]; } ''
     unzip -j ${zip} "nupack-${version}/package/${wheelName}" -d unpacked
     mv "unpacked/${wheelName}" "$out"
@@ -66,10 +64,8 @@ python3Packages.buildPythonPackage {
 
   pythonImportsCheck = [ "nupack" ];
 
-  # requireFile src behind a registration wall: no public URL to track, so the
-  # update-packages workflow skips it during matrix discovery.
+  # Registration prevents automated updates and checks.
   passthru.skipUpdate = true;
-  # requireFile: keep in `packages` but excluded from `nix flake check` builds.
   passthru.requireFile = true;
   passthru.category = "Sequence Analysis & Design";
 

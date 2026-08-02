@@ -3,17 +3,9 @@
   stdenv,
   fetchFromGitHub,
   llvmPackages,
-  # Parallelise the pseudo-likelihood gradient with OpenMP (upstream's
-  # `all-openmp` target). On by default to match nixpkgs' multithreaded-by-
-  # default convention; the build stays bit-reproducible. Parallel float
-  # reductions are not bitwise-deterministic at runtime, so disable this (or set
-  # OMP_NUM_THREADS=1) when you need reproducible numerics.
+  # Disable OpenMP when runtime floating-point results must be deterministic.
   openmpSupport ? true,
 }:
-# plmc infers undirected graphical models (Potts models) from a multiple sequence
-# alignment via pseudo-likelihood maximization — the coupling-inference engine
-# behind EVcouplings' "couplings" stage and EVmutation. Small standalone C
-# program with no dependencies beyond libm.
 stdenv.mkDerivation (_finalAttrs: {
   pname = "plmc";
   # No upstream tags/releases; track the master HEAD by commit date.
@@ -29,9 +21,7 @@ stdenv.mkDerivation (_finalAttrs: {
   # gcc's -fopenmp pulls in its own libgomp; clang needs the standalone libomp.
   buildInputs = lib.optional (openmpSupport && stdenv.cc.isClang) llvmPackages.openmp;
 
-  # The bundled makefile hardcodes `-msse4.2` (x86-only) in every target. The
-  # sources use no x86 intrinsics, so it is purely a codegen flag — compile
-  # directly and add it only on x86_64, keeping aarch64 builds working.
+  # Avoid the Makefile's unconditional x86-only code-generation flag.
   buildPhase = ''
     runHook preBuild
     $CC src/lib/twister.c src/lib/lbfgs.c src/plm.c src/inference.c src/weights.c src/main.c \
@@ -46,8 +36,7 @@ stdenv.mkDerivation (_finalAttrs: {
     runHook postInstall
   '';
 
-  # Real-data smoke test: infer a model for the bundled DHFR protein alignment
-  # (few iterations to stay fast) and assert the parameter file is written.
+  # Infer a small model from the bundled DHFR alignment.
   doInstallCheck = true;
   installCheckPhase = ''
     runHook preInstallCheck
