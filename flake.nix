@@ -1,6 +1,12 @@
 {
   description = "bioinformatics-toolkits — Nix package registry for bioinformatics";
 
+  nixConfig = {
+    allow-import-from-derivation = false;
+    extra-substituters = [ "https://cache.sjanglab.org" ];
+    extra-trusted-public-keys = [ "cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=" ];
+  };
+
   inputs = {
     # keep-sorted start
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
