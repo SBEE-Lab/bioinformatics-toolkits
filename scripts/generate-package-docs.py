@@ -16,7 +16,7 @@ from pathlib import Path
 BEGIN_MARKER = "<!-- BEGIN GENERATED PACKAGE DOCS -->"
 END_MARKER = "<!-- END GENERATED PACKAGE DOCS -->"
 
-FLAKE_REF = "github:mulatta/bioinformatics-toolkits"
+FLAKE_REF = "github:SBEE-Lab/bioinformatics-toolkits"
 
 Metadata = dict[str, str | bool | None]
 
