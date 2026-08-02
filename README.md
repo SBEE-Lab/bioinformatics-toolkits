@@ -7,7 +7,7 @@ Nix package registry for bioinformatics.
 Run a tool directly without installing:
 
 ```bash
-nix run github:mulatta/bioinformatics-toolkits#foldseek -- --help
+nix run github:SBEE-Lab/bioinformatics-toolkits#foldseek -- --help
 ```
 
 Supported systems: `x86_64-linux`, `aarch64-linux`, `aarch64-darwin`.
@@ -19,7 +19,7 @@ repo's pinned `nixpkgs`, so results are reproducible:
 
 ```nix
 {
-  inputs.bio.url = "github:mulatta/bioinformatics-toolkits";
+  inputs.bio.url = "github:SBEE-Lab/bioinformatics-toolkits";
 
   outputs = { nixpkgs, bio, ... }: {
     # e.g. inside a devShell or package
@@ -35,7 +35,7 @@ Use `overlays.shared-nixpkgs` to build the package set against your own
 
 ```nix
 {
-  inputs.bio.url = "github:mulatta/bioinformatics-toolkits";
+  inputs.bio.url = "github:SBEE-Lab/bioinformatics-toolkits";
 
   outputs = { nixpkgs, bio, ... }:
     let
@@ -66,7 +66,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/folddisco
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#folddisco -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#folddisco -- --help`
 - **Nix**: [packages/folddisco/package.nix](packages/folddisco/package.nix)
 
 </details>
@@ -75,7 +75,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/foldmason
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#foldmason -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#foldmason -- --help`
 - **Nix**: [packages/foldmason/package.nix](packages/foldmason/package.nix)
 
 </details>
@@ -84,7 +84,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: GPL-3.0-or-later
 - **Homepage**: https://github.com/steineggerlab/foldseek
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#foldseek -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#foldseek -- --help`
 - **Nix**: [packages/foldseek/package.nix](packages/foldseek/package.nix)
 
 </details>
@@ -93,7 +93,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: US-align license (permissive, BSD-like)
 - **Homepage**: https://github.com/pylelab/USalign
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#usalign -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#usalign -- --help`
 - **Nix**: [packages/usalign/package.nix](packages/usalign/package.nix)
 
 </details>
@@ -105,7 +105,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: unfree
 - **Homepage**: https://www.nupack.org
-- **Usage**: `nix build github:mulatta/bioinformatics-toolkits#nupack`
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#nupack`
 - **Nix**: [packages/nupack/package.nix](packages/nupack/package.nix)
 
 </details>
@@ -114,7 +114,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: unfree
 - **Homepage**: https://github.com/psipred/psipred
-- **Usage**: `nix build github:mulatta/bioinformatics-toolkits#psipred`
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#psipred`
 - **Nix**: [packages/psipred/package.nix](packages/psipred/package.nix)
 
 </details>
@@ -126,7 +126,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: MIT
 - **Homepage**: https://github.com/debbiemarkslab/plmc
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#plmc -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#plmc -- --help`
 - **Nix**: [packages/plmc/package.nix](packages/plmc/package.nix)
 
 </details>
@@ -135,7 +135,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: GPL-2.0-or-later
 - **Homepage**: https://www.tau.ac.il/~itaymay/cp/rate4site.html
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#rate4site -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#rate4site -- --help`
 - **Nix**: [packages/rate4site/package.nix](packages/rate4site/package.nix)
 
 </details>
@@ -144,7 +144,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: MIT
 - **Homepage**: https://github.com/Kuhlman-Lab/ThermoMPNN
-- **Usage**: `nix run github:mulatta/bioinformatics-toolkits#thermompnn -- --help`
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#thermompnn -- --help`
 - **Nix**: [packages/thermompnn/package.nix](packages/thermompnn/package.nix)
 
 </details>
@@ -156,7 +156,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 - **License**: BSD-3-Clause
 - **Homepage**: https://www.biotite-python.org
-- **Usage**: `nix build github:mulatta/bioinformatics-toolkits#biotite`
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#biotite`
 - **Nix**: [packages/biotite/package.nix](packages/biotite/package.nix)
 
 </details>
