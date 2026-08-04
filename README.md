@@ -89,6 +89,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>structty</strong> - Interactive, terminal-native protein structure viewer</summary>
+
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/steineggerlab/StrucTTY
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#structty -- --help`
+- **Nix**: [packages/structty/package.nix](packages/structty/package.nix)
+
+</details>
+<details>
 <summary><strong>usalign</strong> - Universal structure alignment of monomeric and complex proteins and nucleic acids</summary>
 
 - **License**: US-align license (permissive, BSD-like)
