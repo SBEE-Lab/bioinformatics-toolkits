@@ -7,13 +7,13 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "structty";
-  version = "0.1.2";
+  version = "windows-64x";
 
   src = fetchFromGitHub {
     owner = "steineggerlab";
     repo = "StrucTTY";
     tag = finalAttrs.version;
-    hash = "sha256-b8jNd8uUcZl0+NWrNkD7p2Q+PEupWP8VNzJf14/hhVc=";
+    hash = "sha256-LcyKN5VGsKnjfCc0DEOnb+dvcgu7zhTkGXmcM7LHTg0=";
     fetchSubmodules = true;
   };
 
