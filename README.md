@@ -59,7 +59,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 <!-- BEGIN GENERATED PACKAGE DOCS -->
 
-### Structure Analysis
+### Structure
 
 <details>
 <summary><strong>folddisco</strong> - Finding discontinuous motifs in protein structures</summary>
@@ -107,7 +107,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
-### Sequence Analysis & Design
+### Sequence
 
 <details>
 <summary><strong>nupack</strong> - Analysis and design of nucleic acid structures, devices, and systems</summary>
@@ -137,7 +137,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
-### Evolution & Variation
+### Evolution
 
 <details>
 <summary><strong>plmc</strong> - Infer Potts models (couplings) from a multiple sequence alignment by pseudo-likelihood maximization</summary>
@@ -158,7 +158,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
-### Data Access & Integration
+### Data
 
 <details>
 <summary><strong>biomcp</strong> - Biomedical CLI and MCP server for biomedical data sources</summary>
@@ -170,7 +170,7 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
-### Libraries
+### Library
 
 <details>
 <summary><strong>biotite</strong> - Comprehensive library for computational molecular biology</summary>

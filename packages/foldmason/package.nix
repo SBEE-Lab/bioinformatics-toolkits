@@ -56,7 +56,7 @@ stdenv.mkDerivation (finalAttrs: {
     "-DHAVE_ARM8=1"
   ];
 
-  passthru.category = "Structure Analysis";
+  passthru.category = "Structure";
 
   meta = {
     description = "Multiple protein structure alignment at scale with FoldMason";

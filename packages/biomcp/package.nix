@@ -59,7 +59,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     runHook postInstallCheck
   '';
 
-  passthru.category = "Data Access & Integration";
+  passthru.category = "Data";
 
   meta = {
     description = "Biomedical CLI and MCP server for biomedical data sources";

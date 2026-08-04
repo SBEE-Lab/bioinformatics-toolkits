@@ -26,7 +26,7 @@ stdenv.mkDerivation {
   # The primary binary uses extended-range floats to avoid likelihood underflow.
 
   passthru = {
-    category = "Evolution & Variation";
+    category = "Evolution";
     # Frozen upstream with an immutable source snapshot.
     skipUpdate = true;
   };

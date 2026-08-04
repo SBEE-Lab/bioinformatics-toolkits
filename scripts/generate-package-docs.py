@@ -83,14 +83,14 @@ def generate_package_doc(package: str, metadata: Metadata) -> str:
     return "\n".join(lines)
 
 
-# Display order for category sections; any other category falls to the end.
+# Fixed, deliberately broad taxonomy. Reject unknown values so adding a package
+# cannot silently create another README section.
 CATEGORY_ORDER = [
-    "Structure Analysis",
-    "Sequence Analysis & Design",
-    "Evolution & Variation",
-    "Data Access & Integration",
-    "Libraries",
-    "Uncategorized",
+    "Structure",
+    "Sequence",
+    "Evolution",
+    "Data",
+    "Library",
 ]
 
 
@@ -98,14 +98,19 @@ def generate_all_docs(all_metadata: dict[str, Metadata]) -> str:
     """Generate documentation grouped by category, packages sorted by name."""
     by_category: dict[str, list[str]] = {}
     for package in sorted(all_metadata):
-        category = all_metadata[package].get("category", "Uncategorized")
-        by_category.setdefault(str(category), []).append(package)
-
-    ordered = [c for c in CATEGORY_ORDER if c in by_category]
-    ordered += sorted(c for c in by_category if c not in CATEGORY_ORDER)
+        category = str(all_metadata[package].get("category", ""))
+        if category not in CATEGORY_ORDER:
+            allowed = ", ".join(CATEGORY_ORDER)
+            raise ValueError(
+                f"Package {package!r} has invalid category {category!r}; "
+                f"expected one of: {allowed}"
+            )
+        by_category.setdefault(category, []).append(package)
 
     sections = []
-    for category in ordered:
+    for category in CATEGORY_ORDER:
+        if category not in by_category:
+            continue
         entries = [
             generate_package_doc(p, all_metadata[p]) for p in by_category[category]
         ]

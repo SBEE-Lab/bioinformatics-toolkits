@@ -29,7 +29,7 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  passthru.category = "Structure Analysis";
+  passthru.category = "Structure";
 
   meta = {
     description = "Universal structure alignment of monomeric and complex proteins and nucleic acids";

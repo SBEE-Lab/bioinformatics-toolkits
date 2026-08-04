@@ -116,7 +116,7 @@ python3Packages.buildPythonPackage (finalAttrs: {
     "biotite.structure"
   ];
 
-  passthru.category = "Libraries";
+  passthru.category = "Library";
 
   meta = {
     description = "Comprehensive library for computational molecular biology";
