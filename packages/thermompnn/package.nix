@@ -86,7 +86,7 @@ stdenv.mkDerivation (_finalAttrs: {
     runHook postInstallCheck
   '';
 
-  passthru.category = "Sequence Analysis & Design";
+  passthru.category = "Sequence";
 
   meta = {
     description = "Predict ddG stability changes of protein point mutants with a ProteinMPNN-based GNN";

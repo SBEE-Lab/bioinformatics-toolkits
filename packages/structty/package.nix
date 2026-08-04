@@ -28,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.category = "Structure Analysis";
+  passthru.category = "Structure";
 
   meta = {
     description = "Interactive, terminal-native protein structure viewer";

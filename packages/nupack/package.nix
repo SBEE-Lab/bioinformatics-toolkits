@@ -67,7 +67,7 @@ python3Packages.buildPythonPackage {
   # Registration prevents automated updates and checks.
   passthru.skipUpdate = true;
   passthru.requireFile = true;
-  passthru.category = "Sequence Analysis & Design";
+  passthru.category = "Sequence";
 
   meta = {
     description = "Analysis and design of nucleic acid structures, devices, and systems";

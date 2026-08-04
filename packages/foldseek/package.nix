@@ -73,7 +73,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     inherit cudaSupport;
-    category = "Structure Analysis";
+    category = "Structure";
   };
 
   meta = {
