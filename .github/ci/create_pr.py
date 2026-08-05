@@ -66,7 +66,7 @@ def main() -> None:
         number = pr_number(branch)
 
     if os.environ.get("AUTO_MERGE") == "true" and number:
-        run(["gh", "pr", "merge", number, "--auto", "--squash"], check=False)
+        run(["gh", "pr", "merge", number, "--auto", "--merge"], check=False)
 
 
 if __name__ == "__main__":
