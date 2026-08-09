@@ -158,18 +158,6 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
-### Data
-
-<details>
-<summary><strong>biomcp</strong> - Biomedical CLI and MCP server for biomedical data sources</summary>
-
-- **License**: MIT
-- **Homepage**: https://biomcp.org
-- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#biomcp -- --help`
-- **Nix**: [packages/biomcp/package.nix](packages/biomcp/package.nix)
-
-</details>
-
 ### Library
 
 <details>
