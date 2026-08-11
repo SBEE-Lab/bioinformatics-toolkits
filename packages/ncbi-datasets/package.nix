@@ -43,6 +43,8 @@ let
       runHook postInstall
     '';
 
+    passthru.category = "Data";
+
     meta = commonMeta // {
       platforms = [ "aarch64-darwin" ];
     };
@@ -119,6 +121,8 @@ let
         runHook postInstall
       '';
     };
+
+    passthru.category = "Data";
 
     meta = commonMeta // {
       platforms = [ "x86_64-linux" ];

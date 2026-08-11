@@ -158,6 +158,18 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 
+### Data
+
+<details>
+<summary><strong>ncbi-datasets</strong> - NCBI command-line tool to gather data from NCBI databases</summary>
+
+- **License**: publicDomain
+- **Homepage**: https://github.com/ncbi/datasets
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#ncbi-datasets -- --help`
+- **Nix**: [packages/ncbi-datasets/package.nix](packages/ncbi-datasets/package.nix)
+
+</details>
+
 ### Library
 
 <details>
