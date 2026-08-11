@@ -61,19 +61,19 @@ python3Packages.buildPythonPackage (finalAttrs: {
     hash = "sha256-gbGrIkty6uF4h398sVY8XPaY26DVFHZwrcuI1rgSqFE=";
   };
 
-  # Upstream does not ship Cargo.lock.
+  # Upstream omits Cargo.lock for its Rust library, so keep dependency
+  # resolution stable in this package.
   cargoDeps = rustPlatform.fetchCargoVendor {
     name = "${finalAttrs.pname}-${finalAttrs.version}-vendor";
     inherit (finalAttrs) src;
-    hash = "sha256-nQts7uZjd9hxBYuwdxmB/hZaIXtgaEZIadTHI7FDNos=";
-    nativeBuildInputs = [ cargo ];
+    hash = "sha256-V+wKzgwfC92Slp/LlfvnMKATZY2M0RSdMqb4OyHXvuM=";
     postPatch = ''
-      cargo generate-lockfile
+      cp ${./Cargo.lock} Cargo.lock
     '';
   };
 
   postPatch = ''
-    cargo generate-lockfile --offline
+    cp ${./Cargo.lock} Cargo.lock
 
     # Use the Rust toolchain supplied by Nix.
     substituteInPlace setup.py \
