@@ -161,6 +161,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 ### Data
 
 <details>
+<summary><strong>biomcp</strong> - Biomedical CLI and MCP server for biomedical data sources</summary>
+
+- **License**: MIT
+- **Homepage**: https://biomcp.org
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#biomcp -- --help`
+- **Nix**: [packages/biomcp/package.nix](packages/biomcp/package.nix)
+
+</details>
+<details>
 <summary><strong>ncbi-datasets</strong> - NCBI command-line tool to gather data from NCBI databases</summary>
 
 - **License**: publicDomain
