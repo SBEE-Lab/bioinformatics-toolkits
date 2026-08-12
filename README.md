@@ -181,6 +181,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Nix**: [packages/biotite/package.nix](packages/biotite/package.nix)
 
 </details>
+<details>
+<summary><strong>pydna</strong> - Clone with Python! Data structures for double stranded DNA & simulation of homologous recombination, Gibson assembly, cut & paste cloning.</summary>
+
+- **License**: BSD-3-Clause
+- **Homepage**: https://github.com/pydna-group/pydna
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#pydna`
+- **Nix**: [packages/pydna/package.nix](packages/pydna/package.nix)
+
+</details>
 
 <!-- END GENERATED PACKAGE DOCS -->
 
