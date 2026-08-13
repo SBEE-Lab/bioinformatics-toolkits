@@ -226,6 +226,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Nix**: [packages/pydna/package.nix](packages/pydna/package.nix)
 
 </details>
+<details>
+<summary><strong>snapgene-reader</strong> - Convert SnapGene files to dictionaries and Biopython records</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/SnapGeneReader
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#snapgene-reader`
+- **Nix**: [packages/snapgene-reader/package.nix](packages/snapgene-reader/package.nix)
+
+</details>
 
 <!-- END GENERATED PACKAGE DOCS -->
 
