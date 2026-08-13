@@ -110,6 +110,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 ### Sequence
 
 <details>
+<summary><strong>dnachisel</strong> - Optimize DNA sequences under constraints</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/DnaChisel
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#dnachisel -- --help`
+- **Nix**: [packages/dnachisel/package.nix](packages/dnachisel/package.nix)
+
+</details>
+<details>
 <summary><strong>nupack</strong> - Analysis and design of nucleic acid structures, devices, and systems</summary>
 
 - **License**: unfree
