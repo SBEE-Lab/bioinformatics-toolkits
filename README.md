@@ -200,6 +200,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>dna-features-viewer</strong> - Plot features from DNA sequences</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#dna-features-viewer`
+- **Nix**: [packages/dna-features-viewer/package.nix](packages/dna-features-viewer/package.nix)
+
+</details>
+<details>
 <summary><strong>primer3-py</strong> - Python bindings for Primer3 primer design and oligonucleotide analysis</summary>
 
 - **License**: GPL-2.0-or-later
