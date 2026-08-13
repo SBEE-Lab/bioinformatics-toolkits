@@ -8,7 +8,7 @@
   autoPatchelfHook,
 }:
 let
-  version = "4.0.2.0";
+  version = "4.1.0.1";
 
   # Select the matching wheel from the multi-platform archive.
   pyTag = "cp${lib.replaceStrings [ "." ] [ "" ] python3Packages.python.pythonVersion}";
@@ -28,7 +28,7 @@ let
   # Registration-walled download; user must add the zip to the store manually.
   zip = requireFile {
     name = "nupack-${version}.zip";
-    hash = "sha256-4y/PqyqRsm+TKwMRMbLSCqkPKvndoCFMjkiq7QTSzVU=";
+    hash = "sha256-vUkLJPZaE0RMxmwKAl/gkYq+nxaXVrnl6iTx073bYMo=";
     url = "https://www.nupack.org/download/software";
     message = ''
       NUPACK requires free registration. Download nupack-${version}.zip from
