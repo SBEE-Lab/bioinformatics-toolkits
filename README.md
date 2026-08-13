@@ -119,6 +119,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>mfeprimer</strong> - Check PCR primer specificity, dimers, hairpins, and other properties</summary>
+
+- **License**: unfree
+- **Homepage**: https://www.mfeprimer.com/
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#mfeprimer -- --help`
+- **Nix**: [packages/mfeprimer/package.nix](packages/mfeprimer/package.nix)
+
+</details>
+<details>
 <summary><strong>nupack</strong> - Analysis and design of nucleic acid structures, devices, and systems</summary>
 
 - **License**: unfree
