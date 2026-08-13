@@ -26,6 +26,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoTestFlags = [ "--lib" ];
 
+  postInstall = ''
+    mkdir -p "$out/share/skills/biomcp"
+    cp -R ${finalAttrs.src}/skills/. "$out/share/skills/biomcp/"
+  '';
+
   preCheck = ''
     export HOME="$TMPDIR/home"
     export XDG_CACHE_HOME="$TMPDIR/cache"
@@ -55,6 +60,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
     $out/bin/biomcp-cli --version
     $out/bin/biomcp list >/dev/null
     $out/bin/biomcp serve-http --help >/dev/null
+
+    test -f "$out/share/skills/biomcp/SKILL.md"
+    diff -r ${finalAttrs.src}/skills "$out/share/skills/biomcp"
 
     runHook postInstallCheck
   '';
