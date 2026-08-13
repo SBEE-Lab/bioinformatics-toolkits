@@ -1,5 +1,6 @@
 {
   lib,
+  stdenv,
   python3Packages,
   fetchFromGitHub,
 }:
@@ -20,6 +21,10 @@ python3Packages.buildPythonPackage (finalAttrs: {
   postPatch = ''
     substituteInPlace pyproject.toml \
       --replace-fail '"Cython~=3.1.0"' '"Cython"'
+    substituteInPlace primer3/src/libprimer3/Makefile \
+      --replace-fail "CC         = gcc" "CC         = ${stdenv.cc.targetPrefix}cc" \
+      --replace-fail "AR         = ar" "AR         = ${stdenv.cc.targetPrefix}ar" \
+      --replace-fail "RANLIB          = ranlib" "RANLIB          = ${stdenv.cc.targetPrefix}ranlib"
   '';
 
   build-system = with python3Packages; [
