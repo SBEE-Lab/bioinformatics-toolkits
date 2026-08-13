@@ -6,6 +6,7 @@
   allPackages,
   bowtie,
   blast,
+  stdenv,
 }:
 let
   pdfReports = python3Packages.buildPythonPackage (finalAttrs: {
@@ -90,9 +91,19 @@ python3Packages.buildPythonPackage (finalAttrs: {
       --replace-fail "len(pdf_data) < 80000" "len(pdf_data) < 90000"
     substituteInPlace dnachisel/biotools/bowtie.py \
       --replace-fail '["bowtie-build",' '["${bowtie}/bin/bowtie-build-s",' \
-      --replace-fail '["bowtie"]' '["${bowtie}/bin/bowtie-align-s"]'
+      --replace-fail '["bowtie"]' '["${bowtie}/bin/bowtie-align-s"]' \
+      --replace-fail 'parameters += [bowtie_index_path]' \
+        'parameters += ["-x", bowtie_index_path]'
     substituteInPlace dnachisel/biotools/blast_sequence.py \
       --replace-fail '"blastn",' '"${blast}/bin/blastn",'
+  ''
+  + lib.optionalString stdenv.hostPlatform.isDarwin ''
+    # Bowtie 1.3.1 traps on Darwin when --best is combined with -k 1.
+    # AvoidMatches still detects any hit allowed by -v without --best, but
+    # the selected hit's mismatch count may differ when several hits qualify.
+    substituteInPlace dnachisel/biotools/bowtie.py \
+      --replace-fail 'parameters += ["--best", "-k", "1"]' \
+        'parameters += ["-k", "1"]'
   '';
 
   build-system = [ python3Packages.setuptools ];
