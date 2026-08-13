@@ -110,6 +110,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 ### Sequence
 
 <details>
+<summary><strong>dnachisel</strong> - Optimize DNA sequences under constraints</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/DnaChisel
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#dnachisel -- --help`
+- **Nix**: [packages/dnachisel/package.nix](packages/dnachisel/package.nix)
+
+</details>
+<details>
 <summary><strong>nupack</strong> - Analysis and design of nucleic acid structures, devices, and systems</summary>
 
 - **License**: unfree
@@ -200,6 +209,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>dna-features-viewer</strong> - Plot features from DNA sequences</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#dna-features-viewer`
+- **Nix**: [packages/dna-features-viewer/package.nix](packages/dna-features-viewer/package.nix)
+
+</details>
+<details>
 <summary><strong>primer3-py</strong> - Python bindings for Primer3 primer design and oligonucleotide analysis</summary>
 
 - **License**: GPL-2.0-or-later
@@ -215,6 +233,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Homepage**: https://github.com/pydna-group/pydna
 - **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#pydna`
 - **Nix**: [packages/pydna/package.nix](packages/pydna/package.nix)
+
+</details>
+<details>
+<summary><strong>snapgene-reader</strong> - Convert SnapGene files to dictionaries and Biopython records</summary>
+
+- **License**: MIT
+- **Homepage**: https://github.com/Edinburgh-Genome-Foundry/SnapGeneReader
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#snapgene-reader`
+- **Nix**: [packages/snapgene-reader/package.nix](packages/snapgene-reader/package.nix)
 
 </details>
 
