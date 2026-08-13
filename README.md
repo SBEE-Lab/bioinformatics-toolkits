@@ -119,6 +119,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>primer3</strong> - PCR primer design and oligonucleotide analysis tools</summary>
+
+- **License**: GPL-2.0-or-later / GPL-3.0-only
+- **Homepage**: https://github.com/primer3-org/primer3
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#primer3 -- --help`
+- **Nix**: [packages/primer3/package.nix](packages/primer3/package.nix)
+
+</details>
+<details>
 <summary><strong>psipred</strong> - PSIPRED V4 protein secondary structure prediction</summary>
 
 - **License**: unfree
@@ -188,6 +197,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Homepage**: https://www.biotite-python.org
 - **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#biotite`
 - **Nix**: [packages/biotite/package.nix](packages/biotite/package.nix)
+
+</details>
+<details>
+<summary><strong>primer3-py</strong> - Python bindings for Primer3 primer design and oligonucleotide analysis</summary>
+
+- **License**: GPL-2.0-or-later
+- **Homepage**: https://github.com/libnano/primer3-py
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#primer3-py`
+- **Nix**: [packages/primer3-py/package.nix](packages/primer3-py/package.nix)
 
 </details>
 <details>
