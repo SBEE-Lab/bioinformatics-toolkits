@@ -200,6 +200,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>primer3-py</strong> - Python bindings for Primer3 primer design and oligonucleotide analysis</summary>
+
+- **License**: GPL-2.0-or-later
+- **Homepage**: https://github.com/libnano/primer3-py
+- **Usage**: `nix build github:SBEE-Lab/bioinformatics-toolkits#primer3-py`
+- **Nix**: [packages/primer3-py/package.nix](packages/primer3-py/package.nix)
+
+</details>
+<details>
 <summary><strong>pydna</strong> - Clone with Python! Data structures for double stranded DNA & simulation of homologous recombination, Gibson assembly, cut & paste cloning.</summary>
 
 - **License**: BSD-3-Clause
