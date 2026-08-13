@@ -4,8 +4,16 @@ from .command import run
 
 
 def latest_release(owner: str, repo: str) -> str:
-    result = run(["gh", "api", f"repos/{owner}/{repo}/releases/latest"])
-    return str(json.loads(result.stdout)["tag_name"]).lstrip("v")
+    result = run(
+        [
+            "gh",
+            "api",
+            f"repos/{owner}/{repo}/releases/latest",
+            "--jq",
+            ".tag_name",
+        ]
+    )
+    return result.stdout.strip().removeprefix("v")
 
 
 def latest_commit(owner: str, repo: str) -> tuple[str, str]:

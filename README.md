@@ -119,6 +119,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 
 </details>
 <details>
+<summary><strong>primer3</strong> - PCR primer design and oligonucleotide analysis tools</summary>
+
+- **License**: GPL-2.0-or-later / GPL-3.0-only
+- **Homepage**: https://github.com/primer3-org/primer3
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#primer3 -- --help`
+- **Nix**: [packages/primer3/package.nix](packages/primer3/package.nix)
+
+</details>
+<details>
 <summary><strong>psipred</strong> - PSIPRED V4 protein secondary structure prediction</summary>
 
 - **License**: unfree
