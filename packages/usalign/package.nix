@@ -5,13 +5,13 @@
 }:
 stdenv.mkDerivation {
   pname = "usalign";
-  version = "20260815";
+  version = "20260819";
 
   src = fetchFromGitHub {
     owner = "pylelab";
     repo = "USalign";
-    rev = "613f7d1776ec71d8230a1bdc9aff11861c2aabee";
-    hash = "sha256-+bpjznTPyAqiwBppYrierQ/Ok1t4RWGmDPtxB3igVYo=";
+    rev = "fa4376bd99fa17a123d05d7ea47cf6574c80d64f";
+    hash = "sha256-lCG+nqK56tZkD2g46ZQkQr1vr/+fvYtGR4U7RsB0uK8=";
   };
 
   # Makefile hardcodes CC=g++; route it through the stdenv C++ wrapper so the
