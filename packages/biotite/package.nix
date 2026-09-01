@@ -66,7 +66,7 @@ python3Packages.buildPythonPackage (finalAttrs: {
   cargoDeps = rustPlatform.fetchCargoVendor {
     name = "${finalAttrs.pname}-${finalAttrs.version}-vendor";
     inherit (finalAttrs) src;
-    hash = "sha256-UC9A4PR36zrbDnMmwSvrQ/7C+I92K2S+C/SJNOXbfKs=";
+    hash = "sha256-gwLDU4P5LguZEkvP0P5cLjeYYWLvBHoAGcoX/erm6EA=";
     postPatch = ''
       cp ${./Cargo.lock} Cargo.lock
     '';
