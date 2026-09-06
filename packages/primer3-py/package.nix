@@ -6,14 +6,14 @@
 }:
 python3Packages.buildPythonPackage (finalAttrs: {
   pname = "primer3-py";
-  version = "2.3.0";
+  version = "2.3.1";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "libnano";
     repo = "primer3-py";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-HL/kFpz5xvFDKgef2+AI/qjs2jakl00qfPSABYMGyrI=";
+    hash = "sha256-FOHm7cwTHSR5rN+vavuMLCJREEGXrLqAMhKmHiCZuLM=";
   };
 
   # Cython 3.2 remains source-compatible; upstream's compatible-release
