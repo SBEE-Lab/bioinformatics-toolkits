@@ -105,6 +105,9 @@ let
       preInstall = ''
         chmod -R +w "$bazelOut/external"
         rm -rf "$bazelOut/external/rules_shell~~sh_configure~local_config_shell"
+        # Go build-cache entries contain per-run build IDs and are not needed
+        # when Bazel consumes the fetched repositories in the build phase.
+        rm -rf "$bazelOut/external/gazelle~~non_module_deps~bazel_gazelle_go_repository_cache/gocache"
       '';
 
       hash =
