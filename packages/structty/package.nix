@@ -13,7 +13,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "steineggerlab";
     repo = "StrucTTY";
     tag = finalAttrs.version;
-    hash = "sha256-b8jNd8uUcZl0+NWrNkD7p2Q+PEupWP8VNzJf14/hhVc=";
+    hash = "sha256-2KVpOQ2ufGCOD2IFvfbLsE5oy56MV/xKIVl82e7vLeM=";
     fetchSubmodules = true;
   };
 
