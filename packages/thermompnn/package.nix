@@ -41,13 +41,13 @@ in
 stdenv.mkDerivation (_finalAttrs: {
   pname = "thermompnn";
   # No upstream tags/releases; track the main-branch HEAD by commit date.
-  version = "1.0.0";
+  version = "1.0-unstable-2026-09-09";
 
   src = fetchFromGitHub {
     owner = "Kuhlman-Lab";
     repo = "ThermoMPNN";
-    rev = "2b04fd370e399911b1fa5848112cc9013f084110";
-    hash = "sha256-93j6fd/jmHIarolUlbUM4ugHXrBOn3adnZ7SRHf+FXc=";
+    rev = "370f76ec62bd929f7425e311d8df04a0d094990f";
+    hash = "sha256-uOAZbCBhVXOQ+H3b8ejfP+4gMoS4v4J8A4A5s+BJ/IY=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
