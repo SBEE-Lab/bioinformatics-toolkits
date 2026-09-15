@@ -44,13 +44,12 @@ def main() -> None:
     name = parser.parse_args().name
 
     run_update(name)
-    changed = bool(
+    changed = (
         subprocess.run(
-            ["git", "status", "--porcelain"],
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
+            ["git", "diff", "--quiet", "origin/main"],
+            check=False,
+        ).returncode
+        != 0
     )
     write_output("updated", str(changed).lower())
     if changed:

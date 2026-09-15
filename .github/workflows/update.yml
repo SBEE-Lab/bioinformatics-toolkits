@@ -2,7 +2,7 @@ name: Update packages
 
 on:
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
       packages:
@@ -11,8 +11,7 @@ on:
         default: ""
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   discover:
@@ -23,6 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            extra-substituters = https://cache.sjanglab.org
+            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
       - id: matrix
         name: Discover packages
         env:
@@ -40,11 +43,18 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: cachix/install-nix-action@v31
-      - name: Configure Git
+        with:
+          extra_nix_config: |
+            extra-substituters = https://cache.sjanglab.org
+            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
+      - name: Set up git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Stash CI scripts
+        run: cp -r .github/ci "$RUNNER_TEMP/ci"
       - name: Prepare update branch
         run: |
           branch="update/${{ matrix.name }}"
@@ -62,14 +72,21 @@ jobs:
         name: Update package
         env:
           GH_TOKEN: ${{ github.token }}
-        run: nix develop -c .github/ci/update.py "${{ matrix.name }}"
+        run: nix develop -c "$RUNNER_TEMP/ci/update.py" "${{ matrix.name }}"
+      - name: Generate GitHub App token
+        if: steps.update.outputs.updated == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Create or update pull request
         if: steps.update.outputs.updated == 'true'
         env:
           AUTO_MERGE: "true"
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          .github/ci/create_pr.py \
+          "$RUNNER_TEMP/ci/create_pr.py" \
             "${{ matrix.name }}" \
             "${{ matrix.current_version }}" \
             "${{ steps.update.outputs.new_version }}"
