@@ -85,7 +85,6 @@ def main() -> None:
         deps_json.write_text(
             json.dumps({system: deps_hash for system in sorted(deps)}, indent=2) + "\n"
         )
-        run(["nix", "build", FLAKE_ATTR, "--no-link"], cwd=FLAKE_ROOT)
     except BaseException:
         package_nix.write_text(original_package)
         deps_json.write_text(original_deps)

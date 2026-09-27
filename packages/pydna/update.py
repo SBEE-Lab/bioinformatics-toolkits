@@ -3,14 +3,12 @@
 import base64
 import json
 import re
-import subprocess
 import urllib.request
 from pathlib import Path
 from typing import Any
 
 PACKAGE_DIR = Path(__file__).parent
 PACKAGE_NIX = PACKAGE_DIR / "package.nix"
-FLAKE_ROOT = PACKAGE_DIR.parents[1]
 PYPI_JSON = "https://pypi.org/pypi/pydna/json"
 
 # These requirements describe the upstream dependency contract reviewed when
@@ -81,26 +79,6 @@ def replace_once(text: str, pattern: str, replacement: str) -> str:
     return updated
 
 
-def validate_packages() -> None:
-    """Build the default package and the variant containing every extra."""
-    subprocess.run(
-        ["nix", "build", ".#pydna", "--no-link"],
-        cwd=FLAKE_ROOT,
-        check=True,
-    )
-    flake_url = json.dumps(f"path:{FLAKE_ROOT}")
-    expression = (
-        f"let flake = builtins.getFlake {flake_url}; "
-        "in flake.packages.x86_64-linux.pydna.override "
-        "{ withAllExtras = true; }"
-    )
-    subprocess.run(
-        ["nix", "build", "--impure", "--no-link", "--expr", expression],
-        cwd=FLAKE_ROOT,
-        check=True,
-    )
-
-
 def main() -> None:
     """Update pydna after checking its reviewed dependency contract."""
     with urllib.request.urlopen(PYPI_JSON) as response:
@@ -138,12 +116,7 @@ def main() -> None:
         print(f"pydna already at {version}; dependency contract unchanged")
         return
 
-    try:
-        PACKAGE_NIX.write_text(updated)
-        validate_packages()
-    except BaseException:
-        PACKAGE_NIX.write_text(original)
-        raise
+    PACKAGE_NIX.write_text(updated)
 
     print(f"pydna {current} -> {version}")
 

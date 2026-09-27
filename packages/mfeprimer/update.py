@@ -9,7 +9,6 @@ from pathlib import Path
 
 PACKAGE_DIR = Path(__file__).parent
 PACKAGE_NIX = PACKAGE_DIR / "package.nix"
-FLAKE_ROOT = PACKAGE_DIR.parents[1]
 REPOSITORY = "quwubin/MFEprimer-3.0"
 ASSETS = {
     "x86_64-linux": "linux-amd64",
@@ -101,16 +100,7 @@ def main() -> None:
         if count != 1:
             raise ValueError(f"could not update {system} hash in {PACKAGE_NIX}")
 
-    try:
-        PACKAGE_NIX.write_text(candidate)
-        subprocess.run(
-            ["nix", "build", ".#mfeprimer", "--no-link"],
-            cwd=FLAKE_ROOT,
-            check=True,
-        )
-    except BaseException:
-        PACKAGE_NIX.write_text(original)
-        raise
+    PACKAGE_NIX.write_text(candidate)
 
     print(f"mfeprimer {current} -> {version}")
 

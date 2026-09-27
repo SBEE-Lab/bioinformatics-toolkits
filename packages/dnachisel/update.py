@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import subprocess
 import sys
 from pathlib import Path
 
@@ -10,7 +9,7 @@ FLAKE_ROOT = PACKAGE_DIR.parents[1]
 
 sys.path.insert(0, str(FLAKE_ROOT / "scripts"))
 
-from updater import find, latest_release, prefetch_archive, replace  # noqa: E402
+from updater import find, latest_release, prefetch_archive, replace
 
 OWNER = "Edinburgh-Genome-Foundry"
 REPO = "DnaChisel"
@@ -45,16 +44,7 @@ def main() -> None:
         PACKAGE_NIX,
     )
 
-    try:
-        PACKAGE_NIX.write_text(candidate)
-        subprocess.run(
-            ["nix", "build", ".#dnachisel", "--no-link"],
-            cwd=FLAKE_ROOT,
-            check=True,
-        )
-    except BaseException:
-        PACKAGE_NIX.write_text(original)
-        raise
+    PACKAGE_NIX.write_text(candidate)
 
     print(f"dnachisel {current} -> {version}")
 

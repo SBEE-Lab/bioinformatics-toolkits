@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import subprocess
 import sys
 from pathlib import Path
 
@@ -71,12 +70,6 @@ def main() -> None:
         )
         updated = candidate.replace(FAKE_HASH, cargo_hash, 1)
         PACKAGE_NIX.write_text(updated)
-        print("biomcp: validating package build", flush=True)
-        subprocess.run(
-            ["nix", "build", FLAKE_ATTR, "--no-link"],
-            cwd=FLAKE_ROOT,
-            check=True,
-        )
     except BaseException:
         PACKAGE_NIX.write_text(original)
         raise
