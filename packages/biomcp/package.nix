@@ -26,6 +26,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoTestFlags = [ "--lib" ];
 
+  # https://github.com/genomoncology/biomcp/issues/286
+  doCheck = false;
+
   postInstall = ''
     mkdir -p "$out/share/skills/biomcp"
     cp -R ${finalAttrs.src}/skills/. "$out/share/skills/biomcp/"
