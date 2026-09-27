@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - "packages/**"
-      - "scripts/generate-package-docs.py"
-      - "scripts/package-docs-metadata*.nix"
+      - "scripts/generate-package-docs.nu"
+      - "scripts/generate-package-docs.nix"
       - "README.md"
       - ".github/workflows/check-readme.yml"
 
@@ -19,6 +19,4 @@ jobs:
       - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
       - name: Verify generated package documentation
-        run: |
-          python3 scripts/generate-package-docs.py
-          git diff --exit-code README.md
+        run: nix develop -c scripts/generate-package-docs.nu --check

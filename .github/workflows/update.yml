@@ -10,83 +10,12 @@ on:
         required: false
         default: ""
 
-permissions:
-  contents: read
-
 jobs:
-  discover:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
-      has-updates: ${{ steps.matrix.outputs.has-updates }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            extra-substituters = https://cache.sjanglab.org
-            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
-      - id: matrix
-        name: Discover packages
-        env:
-          PACKAGES: ${{ inputs.packages }}
-        run: .github/ci/discovery.py
-
   update:
-    needs: discover
-    if: needs.discover.outputs.has-updates == 'true'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            extra-substituters = https://cache.sjanglab.org
-            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
-      - name: Set up git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Stash CI scripts
-        run: cp -r .github/ci "$RUNNER_TEMP/ci"
-      - name: Prepare update branch
-        run: |
-          branch="update/${{ matrix.name }}"
-          git fetch origin main
-          if git fetch origin "$branch"; then
-            git checkout -B "$branch" "origin/$branch"
-            if ! git rebase origin/main; then
-              git rebase --abort
-              git reset --hard origin/main
-            fi
-          else
-            git checkout -B "$branch" origin/main
-          fi
-      - id: update
-        name: Update package
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: nix develop -c "$RUNNER_TEMP/ci/update.py" "${{ matrix.name }}"
-      - name: Generate GitHub App token
-        if: steps.update.outputs.updated == 'true'
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.SBEE_FLAKE_UPDATER_CLIENT_ID }}
-          private-key: ${{ secrets.SBEE_FLAKE_UPDATER_PRIVATE_KEY }}
-      - name: Create or update pull request
-        if: steps.update.outputs.updated == 'true'
-        env:
-          AUTO_MERGE: "true"
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          "$RUNNER_TEMP/ci/create_pr.py" \
-            "${{ matrix.name }}" \
-            "${{ matrix.current_version }}" \
-            "${{ steps.update.outputs.new_version }}"
+    uses: ./.github/workflows/update-flake.yml
+    with:
+      packages: ${{ inputs.packages }}
+    secrets:
+      app_private_key: ${{ secrets.SBEE_FLAKE_UPDATER_PRIVATE_KEY }}
+    permissions:
+      contents: read

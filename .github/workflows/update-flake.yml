@@ -1,0 +1,163 @@
+name: Update flake
+
+on:
+  workflow_call:
+    inputs:
+      packages:
+        description: Space-separated packages to update; empty selects all
+        required: false
+        type: string
+        default: ""
+    secrets:
+      app_private_key:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      has-updates: ${{ steps.matrix.outputs.has-updates }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            extra-substituters = https://cache.sjanglab.org
+            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
+      - id: matrix
+        name: Discover packages
+        env:
+          PACKAGES: ${{ inputs.packages }}
+        run: .github/ci/discovery.py
+
+  update:
+    needs: discover
+    if: needs.discover.outputs.has-updates == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            extra-substituters = https://cache.sjanglab.org
+            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
+      - name: Stash CI scripts
+        run: cp -r .github/ci "$RUNNER_TEMP/ci"
+      - name: Prepare update branch
+        run: |
+          branch="update/${{ matrix.name }}"
+          git fetch origin main
+          if git fetch origin "$branch"; then
+            git checkout -B "$branch" "origin/$branch"
+            if ! git rebase origin/main; then
+              git rebase --abort
+              git reset --hard origin/main
+            fi
+          else
+            git checkout -B "$branch" origin/main
+          fi
+      - id: update
+        name: Update package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: nix develop -c "$RUNNER_TEMP/ci/update.py" "${{ matrix.name }}"
+      - name: Generate GitHub App token
+        if: steps.update.outputs.updated == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.SBEE_FLAKE_UPDATER_CLIENT_ID }}
+          private-key: ${{ secrets.app_private_key }}
+      - name: Create or update pull request
+        if: steps.update.outputs.updated == 'true'
+        env:
+          AUTO_MERGE: "true"
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          "$RUNNER_TEMP/ci/create_pr.py" \
+            "${{ matrix.name }}" \
+            "${{ matrix.current_version }}" \
+            "${{ steps.update.outputs.new_version }}"
+
+  update-readme:
+    needs: [discover, update]
+    if: always() && needs.discover.outputs.has-updates == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            extra-substituters = https://cache.sjanglab.org
+            extra-trusted-public-keys = cache.sjanglab.org-1:VzE09zCt/P+zsSqRq7nyIPVoQXdADRyRsoF1x25ul1U=
+      - id: readme
+        name: Regenerate README
+        run: |
+          nix develop -c scripts/generate-package-docs.nu
+          if git diff --quiet README.md; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Generate GitHub App token
+        if: steps.readme.outputs.updated == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.SBEE_FLAKE_UPDATER_CLIENT_ID }}
+          private-key: ${{ secrets.app_private_key }}
+      - name: Create README pull request
+        if: steps.readme.outputs.updated == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git remote set-url origin \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          branch="update/readme"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add README.md
+          git commit -m "README: regenerate package documentation"
+          git push --force origin "$branch"
+          if number=$(gh pr list --head "$branch" --json number --jq '.[0].number // empty') && [[ -n "$number" ]]; then
+            gh pr edit "$number" \
+              --title "README: regenerate package documentation" \
+              --body "Regenerate package documentation after package updates."
+          else
+            gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "README: regenerate package documentation" \
+              --body "Regenerate package documentation after package updates." \
+              --label "auto-merge"
+          fi
+
+  summary:
+    needs: [discover, update, update-readme]
+    if: always() && needs.discover.outputs.has-updates == 'true'
+    runs-on: ubuntu-slim
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## Update Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${{ needs.update.result }}" == "failure" ]]; then
+            echo "⚠️ Some package updates failed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "✅ Package update jobs completed." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "README job: ${{ needs.update-readme.result }}" >> "$GITHUB_STEP_SUMMARY"

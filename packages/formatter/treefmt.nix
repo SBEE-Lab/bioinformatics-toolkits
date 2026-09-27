@@ -1,4 +1,5 @@
-_: {
+{ pkgs, ... }:
+{
   projectRootFile = "flake.nix";
 
   programs = {
@@ -14,5 +15,11 @@ _: {
     };
     ruff-format.enable = true;
     statix.enable = true;
+  };
+
+  settings.formatter.nu-check = {
+    command = "${pkgs.nushell}/bin/nu";
+    options = [ (toString ../../scripts/treefmt-nu-check.nu) ];
+    includes = [ "*.nu" ];
   };
 }
