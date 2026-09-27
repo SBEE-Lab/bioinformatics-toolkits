@@ -11,7 +11,7 @@ FLAKE_ROOT = PACKAGE_DIR.parents[1]
 
 sys.path.insert(0, str(FLAKE_ROOT / "scripts"))
 
-from updater import (  # noqa: E402
+from updater import (
     FAKE_HASH,
     find,
     latest_release,
@@ -35,6 +35,7 @@ def main() -> None:
         r'pname = "biomcp";\s*version = "([^"]*)"',
         PACKAGE_NIX,
     )
+    print("biomcp: resolving latest release", flush=True)
     version = latest_release(OWNER, REPO)
     source_url = (
         f"https://github.com/{OWNER}/{REPO}/archive/refs/tags/v{version}.tar.gz"
@@ -61,6 +62,7 @@ def main() -> None:
     )
 
     try:
+        print("biomcp: resolving Cargo dependency hash", flush=True)
         cargo_hash = resolve_fixed_output_hash(
             PACKAGE_NIX,
             candidate,
@@ -69,6 +71,7 @@ def main() -> None:
         )
         updated = candidate.replace(FAKE_HASH, cargo_hash, 1)
         PACKAGE_NIX.write_text(updated)
+        print("biomcp: validating package build", flush=True)
         subprocess.run(
             ["nix", "build", FLAKE_ATTR, "--no-link"],
             cwd=FLAKE_ROOT,
