@@ -78,8 +78,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          client-id: ${{ vars.SBEE_FLAKE_UPDATER_CLIENT_ID }}
+          private-key: ${{ secrets.SBEE_FLAKE_UPDATER_PRIVATE_KEY }}
       - name: Create or update pull request
         if: steps.update.outputs.updated == 'true'
         env:
