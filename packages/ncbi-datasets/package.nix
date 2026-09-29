@@ -22,8 +22,8 @@ let
     license = lib.licenses.publicDomain;
     mainProgram = "datasets";
   };
-  version = "18.37.0";
-  commit = "c641ac110f9f4d756c67e678f646bb1b711b1dd3";
+  version = "18.38.0";
+  commit = "719e1c231c9c61629bb9870800525bec9dc13714";
 
   # Bazel dependencies vary by platform. Use upstream Darwin binaries so
   # updates do not require a macOS runner solely to refresh their hash.
@@ -33,7 +33,7 @@ let
 
     src = fetchzip {
       url = "https://github.com/ncbi/datasets/releases/download/v${version}/darwin-arm64.cli.package.zip";
-      hash = "sha256-fTGU/CYEs9GrT7l3Ks6FiOTvLL/IsATq9vic30pY6G4=";
+      hash = "sha256-y/v0WZvtmMDudJoKpfKCqK9fvZNczmOeozBzrLWgxsw=";
       stripRoot = false;
     };
 
@@ -58,7 +58,7 @@ let
       owner = "ncbi";
       repo = "datasets";
       rev = commit;
-      hash = "sha256-/m00Kt4LIFH5nc4L8zsWdkBR1Yec5eC3//UpkxFXrTA=";
+      hash = "sha256-iEqXhMsBYpTDj56rFcITV3sXtnbnrdb2eLoytVQ8MzI=";
     };
 
     sourceRoot = "source/client";
