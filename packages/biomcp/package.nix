@@ -4,6 +4,7 @@
   fetchFromGitHub,
   stdenv,
   makeWrapper,
+  installAgentSkills,
   cacert,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -22,16 +23,20 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoHash = "sha256-Q8GLgvuciISveyI41PXl86NFsIWCe4HJ/KMyg9ZY4rQ=";
 
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ makeWrapper ];
+  nativeBuildInputs = [
+    installAgentSkills
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isLinux [ makeWrapper ];
 
   cargoTestFlags = [ "--lib" ];
+
+  dontInstallAgentSkills = true;
 
   # https://github.com/genomoncology/biomcp/issues/286
   doCheck = false;
 
   postInstall = ''
-    mkdir -p "$out/share/skills/biomcp"
-    cp -R ${finalAttrs.src}/skills/. "$out/share/skills/biomcp/"
+    installSkill ${finalAttrs.src}/skills
   '';
 
   preCheck = ''
@@ -64,8 +69,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
     $out/bin/biomcp list >/dev/null
     $out/bin/biomcp serve-http --help >/dev/null
 
-    test -f "$out/share/skills/biomcp/SKILL.md"
-    diff -r ${finalAttrs.src}/skills "$out/share/skills/biomcp"
+    test -f "$out/share/skills/biomcp/skills/SKILL.md"
+    diff -r ${finalAttrs.src}/skills "$out/share/skills/biomcp/skills"
 
     runHook postInstallCheck
   '';
