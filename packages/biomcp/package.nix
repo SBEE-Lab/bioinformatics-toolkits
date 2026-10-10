@@ -32,9 +32,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   dontInstallAgentSkills = true;
 
-  # https://github.com/genomoncology/biomcp/issues/286
-  doCheck = false;
-
   postInstall = ''
     installSkill ${finalAttrs.src}/skills
   '';
