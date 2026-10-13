@@ -9,7 +9,7 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "biomcp";
-  version = "0.9.1";
+  version = "0.9.2";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -18,10 +18,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     owner = "genomoncology";
     repo = "biomcp";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-QInPIZGmXRC3EKqwvF5c7V1/rNNCCDYfTPtheN5ddWE=";
+    hash = "sha256-avab7l9HHCBpdJ7V2jEjsZiaqqIqOH3AbduC3KhlRNU=";
   };
 
-  cargoHash = "sha256-Ur4FuRVg9atkU3weY/kLC24CIoeu8nqNe7rT5D8inY0=";
+  cargoHash = "sha256-uC638H9rQpZlToGglikf9jt32Kl/bd2c6kdWNS3FA4I=";
 
   nativeBuildInputs = [
     installAgentSkills
