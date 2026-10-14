@@ -163,6 +163,15 @@ usually fine, but if your `nixpkgs` is far from ours a dependency may not line u
 - **Nix**: [packages/thermompnn/package.nix](packages/thermompnn/package.nix)
 
 </details>
+<details>
+<summary><strong>thermonucleotideblast</strong> - Search DNA targets for primer and probe binding using duplex thermodynamics</summary>
+
+- **License**: BSD-3-Clause
+- **Homepage**: https://github.com/jgans/thermonucleotideBLAST
+- **Usage**: `nix run github:SBEE-Lab/bioinformatics-toolkits#thermonucleotideblast -- --help`
+- **Nix**: [packages/thermonucleotideblast/package.nix](packages/thermonucleotideblast/package.nix)
+
+</details>
 
 ### Evolution
 
