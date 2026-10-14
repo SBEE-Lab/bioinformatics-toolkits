@@ -28,12 +28,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [ makeWrapper ];
 
+  # Upstream only supports nextest; under one libtest process its
+  # env-mutating serial tests hang behind each other's locks.
+  useNextest = true;
+  # Test-only env hooks are compiled under debug_assertions.
+  checkType = "debug";
   cargoTestFlags = [ "--lib" ];
 
   dontInstallAgentSkills = true;
-
-  # https://github.com/genomoncology/biomcp/issues/286
-  doCheck = false;
 
   postInstall = ''
     installSkill ${finalAttrs.src}/skills
