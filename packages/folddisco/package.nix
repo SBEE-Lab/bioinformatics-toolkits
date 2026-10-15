@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "folddisco";
-  version = "2-9375a2d";
+  version = "3-3e193e3";
 
   src = fetchFromGitHub {
     owner = "steineggerlab";
     repo = "folddisco";
     tag = finalAttrs.version;
-    hash = "sha256-fguPo+o/lTzBbpnITM+eGZ6yrzguExsHececticz0Fk=";
+    hash = "sha256-JllZlx7bdbLSZBmVyvzGi/6xbYdz/tyyGXUf6s6Ll/4=";
   };
 
-  cargoHash = "sha256-lJZaMo8kbkZtEd0LsA5AnufDEApIn/p+kuvUbl/rdYY=";
+  cargoHash = "sha256-gHxXU64T465ejxRcX78bnKpmD0KRrLnqNiN8jVq3AH4=";
 
   # The default "foldcomp" feature compiles the vendored lib/foldcomp C++ FFI
   # via the cmake crate (cmake) and generates bindings (bindgenHook → libclang).
