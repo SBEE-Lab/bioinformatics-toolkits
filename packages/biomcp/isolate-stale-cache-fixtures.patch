@@ -1,0 +1,45 @@
+From 86fb5ae88158d8df1c0226d802470fa95c0afd28 Mon Sep 17 00:00:00 2001
+From: mulatta <67085791+mulatta@users.noreply.github.com>
+Date: Thu, 15 Oct 2026 17:23:37 +0900
+Subject: [PATCH] test: isolate stale-cache fixtures from disk pressure
+
+Stale-response fixtures must retain their entries after the server stops. The default minimum of ten percent free space otherwise evicts those entries on busy builders, making these tests depend on host disk usage.
+
+Pin the disk-free floor to one byte only while each fixture environment guard lives, restoring the previous value on drop. Keep runtime defaults and disk-pressure tests unchanged.
+---
+ src/cli/stale_json_note_tests.rs | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/src/cli/stale_json_note_tests.rs b/src/cli/stale_json_note_tests.rs
+index 84f2a44..43fe7f6 100644
+--- a/src/cli/stale_json_note_tests.rs
++++ b/src/cli/stale_json_note_tests.rs
+@@ -193,3 +193,3 @@ impl StaleNoteEnv {
+         }
+-        Self { root, previous }
++        Self { root, previous }.with_disk_floor()
+     }
+@@ -216,3 +216,3 @@ impl StaleNoteEnv {
+         }
+-        Self { root, previous }
++        Self { root, previous }.with_disk_floor()
+     }
+@@ -236,3 +236,17 @@ impl StaleNoteEnv {
+         }
+-        Self { root, previous }
++        Self { root, previous }.with_disk_floor()
++    }
++
++    fn with_disk_floor(mut self) -> Self {
++        // These fixtures need cached entries even on nearly full builders;
++        // they test stale responses, not the host's disk-pressure eviction.
++        // SAFETY: callers hold source_env; the previous value is restored on drop.
++        unsafe {
++            self.previous.push((
++                "BIOMCP_CACHE_MIN_DISK_FREE",
++                std::env::var("BIOMCP_CACHE_MIN_DISK_FREE").ok(),
++            ));
++            std::env::set_var("BIOMCP_CACHE_MIN_DISK_FREE", "1B");
++        }
++        self
+     }

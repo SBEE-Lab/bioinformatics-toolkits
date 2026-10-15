@@ -23,6 +23,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoHash = "sha256-uC638H9rQpZlToGglikf9jt32Kl/bd2c6kdWNS3FA4I=";
 
+  # v0.9.2 and upstream main still let host disk pressure evict stale-test
+  # fixtures. Isolate their disk-free floor without changing runtime defaults.
+  patches = [ ./isolate-stale-cache-fixtures.patch ];
+
   nativeBuildInputs = [
     installAgentSkills
   ]
