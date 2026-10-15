@@ -9,26 +9,26 @@ let
   sources = {
     x86_64-linux = {
       asset = "linux-amd64";
-      hash = "sha256-VquweJSXpic+C30iZnHV8dlZ07zqulvlPw0rLtwTyDk=";
+      hash = "sha256-vDVGhAYTpXPSm3KgM9l/RBDeWrBeXsaObWVM0xj7+HA=";
     };
     aarch64-linux = {
       asset = "linux-arm64";
-      hash = "sha256-ostYFv4UVLD6cJg1SBkkC0G5rMVyNh+GOfjz/C22IO4=";
+      hash = "sha256-Md/rLzy5pYryjf8aAtgCT3dAI28hQNOzT6J3F2nXY3I=";
     };
     x86_64-darwin = {
       asset = "darwin-amd64";
-      hash = "sha256-kzT+1CTCrZmU9NBrGgPaisKynQ2SJJYnnmd9CkrY8/w=";
+      hash = "sha256-ba0lcViIQqvan7X3/p1TwJUsOJtmMoI02J3F8A5SdLA=";
     };
     aarch64-darwin = {
       asset = "darwin-arm64";
-      hash = "sha256-HCTgTXpDkxJYtTas+zSeBncMMRGh6kJwKHbo0ZvUAjk=";
+      hash = "sha256-/Fzy5QqpKhQCyUsNy+N/ljEuWQRJFgHXJapvLZR8QUk=";
     };
   };
   source = sources.${stdenv.hostPlatform.system};
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "mfeprimer";
-  version = "4.5.1";
+  version = "4.5.2";
 
   src = fetchurl {
     url = "https://github.com/quwubin/MFEprimer-3.0/releases/download/v${finalAttrs.version}/mfeprimer-${finalAttrs.version}-${source.asset}.gz";
