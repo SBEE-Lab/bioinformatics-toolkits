@@ -51,14 +51,14 @@ let
 in
 python3Packages.buildPythonPackage (finalAttrs: {
   pname = "biotite";
-  version = "1.7.1";
+  version = "1.8.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "biotite-dev";
     repo = "biotite";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-gbGrIkty6uF4h398sVY8XPaY26DVFHZwrcuI1rgSqFE=";
+    hash = "sha256-S1JzQIGNcuqbk6OiIMvZz5UuzCD1NY/awub7ehXQ/Rw=";
   };
 
   # Upstream omits Cargo.lock for its Rust library, so keep dependency
@@ -66,7 +66,7 @@ python3Packages.buildPythonPackage (finalAttrs: {
   cargoDeps = rustPlatform.fetchCargoVendor {
     name = "${finalAttrs.pname}-${finalAttrs.version}-vendor";
     inherit (finalAttrs) src;
-    hash = "sha256-Ej7EZejgI1/9u09xzBatCsYeDGbVZdNjUFPrJ+LOnZ8=";
+    hash = "sha256-7GzP3lsGgPvy31t7YxJt/g3AfwwXD4wrDxtq5iBQpOE=";
     postPatch = ''
       cp ${./Cargo.lock} Cargo.lock
     '';
