@@ -11,13 +11,13 @@
 stdenv.mkDerivation (_finalAttrs: {
   pname = "psipred";
   # Repo has no release tags; track master HEAD by commit date (README: V4).
-  version = "4.0-unstable-2025-07-03";
+  version = "4.0-unstable-2026-10-19";
 
   src = fetchFromGitHub {
     owner = "psipred";
     repo = "psipred";
-    rev = "4e8d136076bc0af1534cac053cb54d1ee641571a";
-    hash = "sha256-nQDTqmf0OgcoYceDhR/EKqnaQeUaZ22EszzOPOUfTyM=";
+    rev = "aba0c2a0caf88174c59959ee3fd0466da235eec9";
+    hash = "sha256-rdrN049xAs0xoehvD0q+aV/cE/UdR6tDUTVdNTvIFPA=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
