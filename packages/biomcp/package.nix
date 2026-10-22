@@ -9,7 +9,7 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "biomcp";
-  version = "0.9.2";
+  version = "0.9.3";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -18,10 +18,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     owner = "genomoncology";
     repo = "biomcp";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-avab7l9HHCBpdJ7V2jEjsZiaqqIqOH3AbduC3KhlRNU=";
+    hash = "sha256-qYwdnXMxQWDc2AWzAv/AD6CcOR84IPUM+6xdosQKQwU=";
   };
 
-  cargoHash = "sha256-uC638H9rQpZlToGglikf9jt32Kl/bd2c6kdWNS3FA4I=";
+  cargoHash = "sha256-ZC0gPYNnSUURnzvPPKuJ7R217BPbCTN8nrQID07TGY0=";
 
   # v0.9.2 and upstream main still let host disk pressure evict stale-test
   # fixtures. Isolate their disk-free floor without changing runtime defaults.
