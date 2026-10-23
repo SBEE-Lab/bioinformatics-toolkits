@@ -51,14 +51,14 @@ let
 in
 python3Packages.buildPythonPackage (finalAttrs: {
   pname = "biotite";
-  version = "1.8.0";
+  version = "2.0.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "biotite-dev";
     repo = "biotite";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-S1JzQIGNcuqbk6OiIMvZz5UuzCD1NY/awub7ehXQ/Rw=";
+    hash = "sha256-d+sZUV6mJS+o50dtjqtc4BEjwSZedMe5in8YCCSkHds=";
   };
 
   # Upstream omits Cargo.lock for its Rust library, so keep dependency
@@ -76,10 +76,8 @@ python3Packages.buildPythonPackage (finalAttrs: {
     cp ${./Cargo.lock} Cargo.lock
 
     # Use the Rust toolchain supplied by Nix.
-    substituteInPlace setup.py \
-      --replace-fail "from puccinialin import setup_rust" ""
     substituteInPlace pyproject.toml \
-      --replace-fail '"puccinialin", ' ""
+      --replace-fail '"puccinialin"' ""
   '';
 
   env.SETUPTOOLS_SCM_PRETEND_VERSION = finalAttrs.version;
@@ -88,7 +86,6 @@ python3Packages.buildPythonPackage (finalAttrs: {
     setuptools
     setuptools-scm
     setuptools-rust
-    cython
   ];
 
   nativeBuildInputs = [
