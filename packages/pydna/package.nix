@@ -10,19 +10,6 @@
 }:
 
 let
-  biopython = python3Packages.biopython.overridePythonAttrs (_: {
-    version = "1.87";
-
-    src = python3Packages.fetchPypi {
-      pname = "biopython";
-      version = "1.87";
-      hash = "sha256-hFbIA0WbZ5qXEkIuWn/ZgJ8vCJv2m7CF87B3lGrJvb8=";
-    };
-
-    # The nixpkgs patch targets the previous release and is already upstream.
-    patches = [ ];
-  });
-
   seguid = python3Packages.buildPythonPackage {
     pname = "seguid";
     version = "0.2.1";
