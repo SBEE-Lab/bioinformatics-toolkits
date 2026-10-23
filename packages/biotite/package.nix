@@ -76,10 +76,8 @@ python3Packages.buildPythonPackage (finalAttrs: {
     cp ${./Cargo.lock} Cargo.lock
 
     # Use the Rust toolchain supplied by Nix.
-    substituteInPlace setup.py \
-      --replace-fail "from puccinialin import setup_rust" ""
     substituteInPlace pyproject.toml \
-      --replace-fail '"puccinialin", ' ""
+      --replace-fail '"puccinialin"' ""
   '';
 
   env.SETUPTOOLS_SCM_PRETEND_VERSION = finalAttrs.version;
@@ -88,7 +86,6 @@ python3Packages.buildPythonPackage (finalAttrs: {
     setuptools
     setuptools-scm
     setuptools-rust
-    cython
   ];
 
   nativeBuildInputs = [
