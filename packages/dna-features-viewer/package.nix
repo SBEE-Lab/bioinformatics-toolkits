@@ -2,6 +2,7 @@
   lib,
   fetchFromGitHub,
   python3Packages,
+  writableTmpDirAsHomeHook,
 }:
 
 let
@@ -48,6 +49,8 @@ python3Packages.buildPythonPackage (finalAttrs: {
     matplotlib
     packaging
   ];
+
+  nativeBuildInputs = [ writableTmpDirAsHomeHook ];
 
   nativeCheckInputs = with python3Packages; [
     bokeh

@@ -7,8 +7,18 @@
   bowtie,
   blast,
   stdenv,
+  makeFontsConf,
+  dejavu_fonts,
+  writableTmpDirAsHomeHook,
 }:
 let
+  # Reports need fonts even on hosts without a system Fontconfig setup.
+  fontsConf = makeFontsConf {
+    fontDirectories = [ dejavu_fonts.minimal ];
+    impureFontDirectories = [ ];
+    includes = [ ];
+  };
+
   pdfReports = python3Packages.buildPythonPackage (finalAttrs: {
     pname = "pdf-reports";
     version = "0.3.9";
@@ -29,6 +39,9 @@ let
       pandas
       markdown
     ];
+    env.FONTCONFIG_FILE = fontsConf;
+    nativeBuildInputs = [ writableTmpDirAsHomeHook ];
+
     pythonRemoveDeps = [ "backports.functools-lru-cache" ];
     doCheck = false;
     pythonImportsCheck = [ "pdf_reports" ];
@@ -53,6 +66,8 @@ let
       allPackages."snapgene-reader"
     ];
     doCheck = false;
+    env.FONTCONFIG_FILE = fontsConf;
+    nativeBuildInputs = [ writableTmpDirAsHomeHook ];
     pythonImportsCheck = [ "sequenticon" ];
   });
 
@@ -108,6 +123,14 @@ python3Packages.buildPythonPackage (finalAttrs: {
 
   build-system = [ python3Packages.setuptools ];
 
+  nativeBuildInputs = [ writableTmpDirAsHomeHook ];
+  env.FONTCONFIG_FILE = fontsConf;
+  makeWrapperArgs = [
+    "--set-default"
+    "FONTCONFIG_FILE"
+    fontsConf
+  ];
+
   dependencies =
     (with python3Packages; [
       biopython
@@ -141,6 +164,14 @@ python3Packages.buildPythonPackage (finalAttrs: {
   ];
 
   pythonImportsCheck = [ "dnachisel" ];
+
+  doInstallCheck = true;
+  postInstallCheck = ''
+    env -u FONTCONFIG_FILE "$out/bin/dnachisel" --help >cli-help.txt 2>cli-errors.txt
+    cat cli-errors.txt
+    test ! -s cli-errors.txt
+    grep -q "DNA Chisel Command Line Interface" cli-help.txt
+  '';
 
   passthru.category = "Sequence";
 
