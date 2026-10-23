@@ -124,11 +124,11 @@ python3Packages.buildPythonPackage (finalAttrs: {
   nativeCheckInputs =
     (with python3Packages; [
       pytestCheckHook
+      primer3-py
       genomeCollector
     ])
     ++ reportsDependencies
     ++ [
-      allPackages."primer3-py"
       bowtie
       blast
     ];
