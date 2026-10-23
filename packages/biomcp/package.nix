@@ -23,10 +23,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoHash = "sha256-ZC0gPYNnSUURnzvPPKuJ7R217BPbCTN8nrQID07TGY0=";
 
-  # v0.9.2 and upstream main still let host disk pressure evict stale-test
-  # fixtures. Isolate their disk-free floor without changing runtime defaults.
-  patches = [ ./isolate-stale-cache-fixtures.patch ];
-
   nativeBuildInputs = [
     installAgentSkills
   ]
@@ -54,10 +50,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
   '';
 
   postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
-    for bin in biomcp biomcp-cli; do
-      wrapProgram "$out/bin/$bin" \
-        --set-default SSL_CERT_FILE "${cacert}/etc/ssl/certs/ca-bundle.crt"
-    done
+    wrapProgram "$out/bin/biomcp" \
+      --set-default SSL_CERT_FILE "${cacert}/etc/ssl/certs/ca-bundle.crt"
   '';
 
   doInstallCheck = true;
@@ -71,7 +65,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
     mkdir -p "$HOME" "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME"
 
     $out/bin/biomcp --version
-    $out/bin/biomcp-cli --version
     $out/bin/biomcp list >/dev/null
     $out/bin/biomcp serve-http --help >/dev/null
 
